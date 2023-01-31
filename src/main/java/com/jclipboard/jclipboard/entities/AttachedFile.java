@@ -1,6 +1,6 @@
 package com.jclipboard.jclipboard.entities;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -12,6 +12,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,6 +34,7 @@ public class AttachedFile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @NotBlank(message = "Name is required")
     @Column(nullable = false)
     private String name;
     
@@ -41,6 +44,7 @@ public class AttachedFile {
     @Column(nullable = false)
     private String size;
 
+    @NotNull(message = "Clipboard is required")
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private ClipboardItem clipboard;
     
@@ -49,9 +53,9 @@ public class AttachedFile {
     
     @CreationTimestamp
     @Column(name = "created_at")
-    private Date cretedAt;
+    private LocalDateTime cretedAt;
 
     @UpdateTimestamp
     @Column(name = "updated_at")
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 }

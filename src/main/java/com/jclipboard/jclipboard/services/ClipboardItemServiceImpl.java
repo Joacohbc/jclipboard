@@ -12,6 +12,8 @@ import com.jclipboard.jclipboard.dto.ClipboardItemMapper;
 import com.jclipboard.jclipboard.exceptions.EntityNotFoundException;
 import com.jclipboard.jclipboard.repositories.ClipboardItemRepository;
 
+import jakarta.validation.Valid;
+
 @Service
 public class ClipboardItemServiceImpl implements ClipboardItemService {
 
@@ -38,13 +40,17 @@ public class ClipboardItemServiceImpl implements ClipboardItemService {
     }
 
     @Override
-    public ClipboardItemDTO save(ClipboardItemDTO dto) {
+    public ClipboardItemDTO save(@Valid ClipboardItemDTO dto) {
         return mapper.toDTO(
                 repository.save(mapper.toEntity(dto)));
     }
 
     @Override
     public void deleteById(Long id) {
+        if(!repository.existsById(id)) {
+            throw new EntityNotFoundException("Clipboard item not found");
+        }
+
         repository.deleteById(id);
     }
 

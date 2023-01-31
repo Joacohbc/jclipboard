@@ -13,30 +13,43 @@ import lombok.Setter;
 @Setter
 public class JsonError {
 
-    private String message;
+    private String[] messages;
     private String status;
     private int statusCode;
 
     public JsonError() {
     }
 
-    public JsonError(String message, String status, int statusCode) {
-        this.message = message;
+    private JsonError(String[] messages, String status, int statusCode) {
+        this.messages = messages;
         this.status = status;
         this.statusCode = statusCode;
     }
 
-    public JsonError(String message, HttpStatus httpStatus) {
-        this.message = message;
-        this.status = httpStatus.getReasonPhrase();
-        this.statusCode = httpStatus.value();
+    private JsonError(String message, String status, int statusCode) {
+        this(new String[] { message }, status, statusCode);
     }
 
-    public ResponseEntity<Map<String, Object>> getResponseEntity() {
+    private JsonError(String message, HttpStatus httpStatus) {
+        this(message, httpStatus.getReasonPhrase(), httpStatus.value());
+    }
+
+    private JsonError(String[] messages, HttpStatus httpStatus) {
+        this(messages, httpStatus.getReasonPhrase(), httpStatus.value());
+    }
+
+    private ResponseEntity<Map<String, Object>> getResponseEntity() {
         return ResponseEntity.status(statusCode).body(new HashMap<>() {
             {
-                put("message", message);
-                put("error", message);
+                // Si hay más de un mensaje, se agregan al arreglo "messages" y "errors"
+                if(messages.length >= 2) {
+                    put("messages", messages);
+                    put("errors", messages);
+                } else {
+                    put("message", messages[0]);
+                    put("error", messages[0]);
+                }
+
                 put("status", status);
                 put("status_code",statusCode);
             }
@@ -49,5 +62,9 @@ public class JsonError {
 
     public static ResponseEntity<Map<String, Object>> of(String message, HttpStatus httpStatus) {
         return new JsonError(message, httpStatus).getResponseEntity();
+    }
+
+    public static ResponseEntity<Map<String, Object>> of(String[] messages, HttpStatus httpStatus) {
+        return new JsonError(messages, httpStatus).getResponseEntity();
     }
 }

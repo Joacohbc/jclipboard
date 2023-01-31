@@ -21,6 +21,9 @@ import com.jclipboard.jclipboard.exceptions.EntityNotFoundException;
 import com.jclipboard.jclipboard.exceptions.JsonError;
 import com.jclipboard.jclipboard.services.ClipboardItemService;
 
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+
 @RestController
 @RequestMapping("/clipboard")
 public class ClipboardItemController {
@@ -28,12 +31,25 @@ public class ClipboardItemController {
     @Autowired
     private ClipboardItemService service;
 
-    @ExceptionHandler({ EntityNotFoundException.class })
+    @ExceptionHandler 
     public ResponseEntity<Map<String, Object>> handleException(Exception ex) {
+        return JsonError.of(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({ EntityNotFoundException.class})
+    public ResponseEntity<Map<String, Object>> handleException(EntityNotFoundException ex) {
         return JsonError.of(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
-    
-    @GetMapping("/{id}")
+
+    @ExceptionHandler({ ConstraintViolationException.class })
+    public ResponseEntity<Map<String, Object>> handleException(ConstraintViolationException ex) {
+        // Retorno todo el mensaje de error de la excepción
+        return JsonError.of(ex.getConstraintViolations()
+                .stream()
+                .map(ConstraintViolation::getMessage)
+                .toArray(String[]::new), HttpStatus.BAD_REQUEST);
+    }
+
     public ResponseEntity<ClipboardItemDTO> getById(@PathVariable Long id) {
         return ResponseEntity.ok(service.getById(id));
     }

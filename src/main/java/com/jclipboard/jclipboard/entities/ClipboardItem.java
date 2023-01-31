@@ -1,13 +1,10 @@
 package com.jclipboard.jclipboard.entities;
 
-import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -18,6 +15,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -38,24 +37,27 @@ public class ClipboardItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Text is required")
     @Column(nullable = false)
     private String text;
     
+    @NotNull(message = "User is required")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private User user;
     
     @OneToMany(mappedBy = "clipboard", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<AttachedFile> attachedFiles;
 
+    @NotNull(message = "Expiration is required")
     @Column(nullable =  false)
-    private Date expiration;
+    private LocalDateTime expiration;
 
     @CreationTimestamp
     @Column(name = "created_at")
-    private Date cretedAt;
+    private LocalDateTime cretedAt;
 
     @UpdateTimestamp
     @Column(name = "updated_at")
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 
 }

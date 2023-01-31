@@ -1,6 +1,6 @@
 package com.jclipboard.jclipboard.dto;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -21,11 +21,11 @@ public class ClipboardItemDTO implements Serializable {
     private UserDTO user;
     
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private Date expiration;
+    private LocalDateTime expiration;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private Date cretedAt;
+    private LocalDateTime cretedAt;
     
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 }
