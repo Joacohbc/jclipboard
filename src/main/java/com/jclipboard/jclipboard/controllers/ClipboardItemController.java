@@ -1,10 +1,13 @@
 package com.jclipboard.jclipboard.controllers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,8 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jclipboard.jclipboard.dtos.ClipboardItemDTO;
-import com.jclipboard.jclipboard.dtos.UserDTO;
+import com.jclipboard.jclipboard.entities.ClipboardItem;
+import com.jclipboard.jclipboard.exceptions.EntityNotFoundException;
+import com.jclipboard.jclipboard.exceptions.JsonError;
 import com.jclipboard.jclipboard.services.ClipboardItemService;
 
 @RestController
@@ -24,28 +28,29 @@ public class ClipboardItemController {
     @Autowired
     private ClipboardItemService service;
 
+    @ExceptionHandler({ EntityNotFoundException.class })
+    public ResponseEntity<Map<String, Object>> handleException(Exception ex) {
+        return JsonError.of(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+    
     @GetMapping("/{id}")
-    public ResponseEntity<ClipboardItemDTO> getById(@PathVariable Long id) {
+    public ResponseEntity<ClipboardItem> getById(@PathVariable Long id) {
         return ResponseEntity.ok(service.getById(id));
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<ClipboardItemDTO>> getAll() {
+    public ResponseEntity<List<ClipboardItem>> getAll() {
         return ResponseEntity.ok(service.getAll());
     }
 
     @PostMapping("/")
-    public ResponseEntity<ClipboardItemDTO> save(@RequestBody ClipboardItemDTO dto) {
-        UserDTO u = new UserDTO();
-        u.setId(1L);
-        dto.setUser(u);
-        return ResponseEntity.ok(service.save(dto));
+    public ResponseEntity<ClipboardItem> save(@RequestBody ClipboardItem clipboardItem) {
+        return ResponseEntity.ok(service.save(clipboardItem));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ClipboardItemDTO> update(@PathVariable Long id, @RequestBody ClipboardItemDTO dto) {
-        dto.setId(id);
-        return ResponseEntity.ok(service.save(dto));
+    public ResponseEntity<ClipboardItem> update(@PathVariable Long id, @RequestBody ClipboardItem clipboardItem) {
+        return ResponseEntity.ok(service.save(clipboardItem));
     }
 
     @DeleteMapping("/{id}")

@@ -2,14 +2,11 @@ package com.jclipboard.jclipboard.services;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
+import com.jclipboard.jclipboard.entities.ClipboardItem;
 
-import com.jclipboard.jclipboard.dtos.ClipboardItemDTO;
-
-@Service
 public interface ClipboardItemService {
-    List<ClipboardItemDTO> getAll();
-    ClipboardItemDTO getById(Long id);
-    ClipboardItemDTO save(ClipboardItemDTO ClipboardItemDTO);
+    List<ClipboardItem> getAll();
+    ClipboardItem getById(Long id);
+    ClipboardItem save(ClipboardItem ClipboardItem);
     void deleteById(Long id);
 }
