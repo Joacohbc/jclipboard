@@ -7,7 +7,8 @@ import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.jclipboard.jclipboard.entities.ClipboardItem;
+import com.jclipboard.jclipboard.dto.ClipboardItemDTO;
+import com.jclipboard.jclipboard.dto.ClipboardItemMapper;
 import com.jclipboard.jclipboard.exceptions.EntityNotFoundException;
 import com.jclipboard.jclipboard.repositories.ClipboardItemRepository;
 
@@ -17,28 +18,34 @@ public class ClipboardItemServiceImpl implements ClipboardItemService {
     @Autowired
     private ClipboardItemRepository repository;
 
+    @Autowired
+    private ClipboardItemMapper mapper;
+
     @Override
-    public List<ClipboardItem> getAll() {
-        return StreamSupport.
-        stream(repository.findAll().spliterator(), false).
-        collect(Collectors.toList());
+    public List<ClipboardItemDTO> getAll() {
+        return mapper.toListDTO(
+                StreamSupport
+                        .stream(repository.findAll().spliterator(), false)
+                        .collect(Collectors.toList()));
     }
 
     @Override
-    public ClipboardItem getById(Long id) {
-        return repository.findById(id).orElseThrow(() -> {
-            return new EntityNotFoundException("Clipboard item not found");
-        });
+    public ClipboardItemDTO getById(Long id) {
+        return mapper.toDTO(
+                repository.findById(id).orElseThrow(() -> {
+                    return new EntityNotFoundException("Clipboard item not found");
+                }));
     }
 
     @Override
-    public ClipboardItem save(ClipboardItem clipboardItem) {
-        return repository.save(clipboardItem);
+    public ClipboardItemDTO save(ClipboardItemDTO dto) {
+        return mapper.toDTO(
+                repository.save(mapper.toEntity(dto)));
     }
 
     @Override
     public void deleteById(Long id) {
         repository.deleteById(id);
     }
-    
+
 }

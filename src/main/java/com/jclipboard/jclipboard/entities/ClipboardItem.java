@@ -47,7 +47,6 @@ public class ClipboardItem {
     @OneToMany(mappedBy = "clipboard", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<AttachedFile> attachedFiles;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     @Column(nullable =  false)
     private Date expiration;
 

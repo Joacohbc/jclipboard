@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jclipboard.jclipboard.entities.ClipboardItem;
+import com.jclipboard.jclipboard.dto.ClipboardItemDTO;
 import com.jclipboard.jclipboard.exceptions.EntityNotFoundException;
 import com.jclipboard.jclipboard.exceptions.JsonError;
 import com.jclipboard.jclipboard.services.ClipboardItemService;
@@ -34,22 +34,22 @@ public class ClipboardItemController {
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<ClipboardItem> getById(@PathVariable Long id) {
+    public ResponseEntity<ClipboardItemDTO> getById(@PathVariable Long id) {
         return ResponseEntity.ok(service.getById(id));
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<ClipboardItem>> getAll() {
+    public ResponseEntity<List<ClipboardItemDTO>> getAll() {
         return ResponseEntity.ok(service.getAll());
     }
 
     @PostMapping("/")
-    public ResponseEntity<ClipboardItem> save(@RequestBody ClipboardItem clipboardItem) {
+    public ResponseEntity<ClipboardItemDTO> save(@RequestBody ClipboardItemDTO clipboardItem) {
         return ResponseEntity.ok(service.save(clipboardItem));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ClipboardItem> update(@PathVariable Long id, @RequestBody ClipboardItem clipboardItem) {
+    public ResponseEntity<ClipboardItemDTO> update(@PathVariable Long id, @RequestBody ClipboardItemDTO clipboardItem) {
         return ResponseEntity.ok(service.save(clipboardItem));
     }
 
