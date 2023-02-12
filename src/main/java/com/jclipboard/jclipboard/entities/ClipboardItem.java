@@ -1,7 +1,7 @@
 package com.jclipboard.jclipboard.entities;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -37,16 +37,24 @@ public class ClipboardItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Title is required")
+    @Column(nullable = false)
+    private String title;
+
+    @NotBlank(message = "Description is required")
+    @Column(nullable = true)
+    private String description;
+
     @NotBlank(message = "Text is required")
     @Column(nullable = false)
-    private String text;
+    private String content;
     
     @NotNull(message = "User is required")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private User user;
     
     @OneToMany(mappedBy = "clipboard", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<AttachedFile> attachedFiles;
+    private Set<AttachedFile> attachedFiles;
 
     @NotNull(message = "Expiration is required")
     @Column(nullable =  false)

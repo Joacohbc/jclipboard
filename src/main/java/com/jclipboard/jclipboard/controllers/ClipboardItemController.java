@@ -43,7 +43,6 @@ public class ClipboardItemController {
 
     @ExceptionHandler({ ConstraintViolationException.class })
     public ResponseEntity<Map<String, Object>> handleException(ConstraintViolationException ex) {
-        // Retorno todo el mensaje de error de la excepción
         return JsonError.of(ex.getConstraintViolations()
                 .stream()
                 .map(ConstraintViolation::getMessage)

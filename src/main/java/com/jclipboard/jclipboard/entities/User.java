@@ -1,7 +1,7 @@
 package com.jclipboard.jclipboard.entities;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -55,7 +55,7 @@ public class User {
 
     @JsonBackReference // Prevents infinite recursion when serializing to JSON (with Clipboards)
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<ClipboardItem> clipboards;
+    private Set<ClipboardItem> clipboards;
     
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

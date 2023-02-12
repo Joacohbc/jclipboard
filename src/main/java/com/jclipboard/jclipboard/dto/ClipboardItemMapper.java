@@ -19,7 +19,9 @@ public class ClipboardItemMapper {
     public ClipboardItemDTO toDTO(ClipboardItem clipboardItem) {
         return ClipboardItemDTO.builder()
             .id(clipboardItem.getId())
-            .text(clipboardItem.getText())
+            .title(clipboardItem.getTitle())
+            .description(clipboardItem.getDescription())
+            .content(clipboardItem.getContent())
             .user(userMapper.toDTO(clipboardItem.getUser()))
             .expiration(clipboardItem.getExpiration())
             .cretedAt(clipboardItem.getCretedAt())
@@ -31,7 +33,9 @@ public class ClipboardItemMapper {
     public ClipboardItem toEntity(ClipboardItemDTO clipboardItemDTO) {
         return ClipboardItem.builder()
             .id(clipboardItemDTO.getId())
-            .text(clipboardItemDTO.getText())
+            .title(clipboardItemDTO.getTitle())
+            .description(clipboardItemDTO.getDescription())
+            .content(clipboardItemDTO.getContent())
             .user(userMapper.toEntity(clipboardItemDTO.getUser()))
             .expiration(clipboardItemDTO.getExpiration())
             .cretedAt(clipboardItemDTO.getCretedAt())

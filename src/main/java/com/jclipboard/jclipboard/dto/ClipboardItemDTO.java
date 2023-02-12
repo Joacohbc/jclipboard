@@ -17,7 +17,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ClipboardItemDTO implements Serializable {
     private Long id;
-    private String text;
+    private String title;
+    private String description;
+    private String content;
     private UserDTO user;
     
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
