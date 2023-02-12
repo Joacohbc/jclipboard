@@ -1,0 +1,64 @@
+.clipboard-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-radius: 5px;
+    width: fit-content;
+    gap: 10px;
+    background-color: cadetblue;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    width: auto;
+}
+
+
+.clipboard-item:hover {
+    transform: scale(1.05);
+}
+
+.clipboard-item__title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.clipboard_button {
+    all: unset;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #1976d2;
+    color: white;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-transform: uppercase;
+    font-family: 'Roboto', sans-serif;
+}
+
+.clipboard_icon {
+    font-size: 1.2rem;
+    margin-right: 3px;
+}
+
+.clipboard_button:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+.clipboard_button:active {
+    transform: translateY(-0.1rem);
+}
+
+.clipboard-item__actions {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
