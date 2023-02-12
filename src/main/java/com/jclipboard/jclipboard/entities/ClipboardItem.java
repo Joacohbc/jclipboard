@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -15,6 +16,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -30,7 +32,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString(exclude = {"attachedFiles"})
-@Entity(name = "clipboards")
+@Entity
+@Table(name = "clipboards")
 public class ClipboardItem {
     
     @Id
@@ -57,6 +60,7 @@ public class ClipboardItem {
     private Set<AttachedFile> attachedFiles;
 
     @NotNull(message = "Expiration is required")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:00:00")
     @Column(nullable =  false)
     private LocalDateTime expiration;
 

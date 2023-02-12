@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jclipboard.jclipboard.dto.ClipboardItemDTO;
 import com.jclipboard.jclipboard.exceptions.EntityNotFoundException;
+import com.jclipboard.jclipboard.exceptions.InvalidEntityException;
 import com.jclipboard.jclipboard.exceptions.JsonError;
 import com.jclipboard.jclipboard.services.ClipboardItemService;
 
@@ -27,16 +28,16 @@ import jakarta.validation.ConstraintViolationException;
 @RestController
 @RequestMapping("/clipboard")
 public class ClipboardItemController {
-    
+
     @Autowired
     private ClipboardItemService service;
 
-    @ExceptionHandler 
+    @ExceptionHandler
     public ResponseEntity<Map<String, Object>> handleException(Exception ex) {
         return JsonError.of(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({ EntityNotFoundException.class})
+    @ExceptionHandler({ EntityNotFoundException.class })
     public ResponseEntity<Map<String, Object>> handleException(EntityNotFoundException ex) {
         return JsonError.of(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
@@ -47,6 +48,11 @@ public class ClipboardItemController {
                 .stream()
                 .map(ConstraintViolation::getMessage)
                 .toArray(String[]::new), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({ InvalidEntityException.class })
+    public ResponseEntity<Map<String, Object>> handleException(InvalidEntityException ex) {
+        return JsonError.of(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     public ResponseEntity<ClipboardItemDTO> getById(@PathVariable Long id) {

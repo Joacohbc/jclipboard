@@ -4,99 +4,17 @@ import { Header } from './components/Header';
 import { Overlay } from './components/Olverlay';
 import axios from "axios";
 import "./styles/App.css";
+import { TestClipboardsData } from "./testData";
 
 const emptyClipboard = {id:0, title:"", description:"", content:"", user:{id:0, username:"", email:"", createdAt:"", updatedAt:""}, expiration:"", createdAt:"", updatedAt:""};
-const testClipboards = [
-    {
-        "id": 1,
-        "title": "Hola Mundo en Java",
-        "description": "Mensaje de Hola mundo escrito en Java",
-        "content": `public class HolaMundo { 
-    public static void main(String[] args) { 
-        System.out.println("Hola Mundo!"); 
-    } 
-}`,
-        "user": {
-            "id": 1,
-            "username": "joaco",
-            "email": "Joaco@gmail.com",
-            "createdAt": "2023-01-24 23:21",
-            "updatedAt": "2023-01-24 23:21"
-        },
-        "expiration": "2023-01-31 13:00",
-        "cretedAt": "2023-02-02 20:18",
-        "updatedAt": "2023-02-02 20:18"
-    },
-    {
-        "id": 2,
-        "title": "Hola Mundo Go",
-        "description": "Mensaje de Hola mundo escrito en Go",
-        "content": `package main
-
-import "fmt"
-
-func main() {
-    fmt.Println("Hello, World!")
-}`,
-        "user": {
-            "id": 1,
-            "username": "joaco",
-            "email": "Joaco@gmail.com",
-            "createdAt": "2023-01-24 23:21",
-            "updatedAt": "2023-01-24 23:21"
-        },
-        "expiration": "2023-01-31 13:00",
-        "cretedAt": "2023-02-02 20:18",
-        "updatedAt": "2023-02-02 20:18"
-    },
-    {
-        "id": 3,
-        "title": "Hola Mundo en Python",
-        "description": "Mensaje de Hola mundo escrito en Python",
-        "content": "print(\"Hola Mundo!\")",
-        "user": {
-            "id": 1,
-            "username": "joaco",
-            "email": "Joaco@gmail.com",
-            "createdAt": "2023-01-24 23:21",
-            "updatedAt": "2023-01-24 23:21"
-        },
-        "expiration": "2023-01-31 13:00",
-        "cretedAt": "2023-02-02 20:18",
-        "updatedAt": "2023-02-02 20:18"
-    },
-    {
-        "id": 4,
-        "title": "Hola Mundo en C",
-        "description": "Mensaje de Hola mundo escrito en C",
-        "content": `#include <stdio.h>
-#include <stdlib.h>
-
-int main()
-{
-    printf("Hello world!");
-    return 0;
-}`,
-        "user": {
-            "id": 1,
-            "username": "joaco",
-            "email": "Joaco@gmail.com",
-            "createdAt": "2023-01-24 23:21",
-            "updatedAt": "2023-01-24 23:21"
-        },
-        "expiration": "2023-01-31 13:00",
-        "cretedAt": "2023-02-02 20:18",
-        "updatedAt": "2023-02-02 20:18"
-    }
-];
 
 function App() {
 
     // Donde se guardan TODOS los ClipboardItems que se obtienen de la peticion
-    const [allClipboards, setAllClipboards] = useState(testClipboards);
+    const [allClipboards, setAllClipboards] = useState(TestClipboardsData);
 
     // Donde se guardan los ClipboardItems que se estran motrando en pantalla
-    const [clipboards, setClipboards] = useState(testClipboards);
+    const [clipboards, setClipboards] = useState(TestClipboardsData);
 
     // Determina si el Overlay esta visible y cual Clipboard esta mostrando
     const [visibleOverlay, setVisibleOverlay] = useState(false);
